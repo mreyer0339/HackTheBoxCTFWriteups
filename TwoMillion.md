@@ -7,7 +7,6 @@ Hello,
   - CompTIA Network+  
   - CompTIA Security+  
   - CompTIA PenTest+  
-  - CompTIA SecurityX (Formerly CASP+)  
   - AWS Certified Cloud Practitioner  
 
   I hope to continue my red-team process learning through HTB and doing more writeups, as well as eventually working towards completing OCSP certification.  
