@@ -9,7 +9,7 @@ Hello,
   - CompTIA PenTest+  
   - AWS Certified Cloud Practitioner  
 
-  I hope to continue my red-team process learning through HTB and doing more writeups, as well as eventually working towards completing OCSP certification.  
+  I hope to continue my red-team process learning through HTB and doing more writeups, as well as eventually working towards completing SecurityX & OCSP certification.  
 
   
 # WRITEUP 
