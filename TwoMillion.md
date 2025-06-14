@@ -217,6 +217,8 @@ I used the `ls -la` command to show all visible and hidden files.
 
 There was nothing of interest in any of the files other than the hidden file ".env" (`.<filename>` indicates hidden file).  
 
+#####################################################################################################user.txt shows us our root flag==> 
+
 ![image](https://github.com/user-attachments/assets/ad8d01d0-e0af-455d-8b67-719baecfd9d4)
 
 Here, I see an admin username/password.  
@@ -277,12 +279,13 @@ Checking for files in root directory...
 
 ![image](https://github.com/user-attachments/assets/ea1a2b2e-e44b-4165-b88b-f384c6d6c259)
 
+#####################################################################################################root.txt shows us our root flag==> 
+
+# POST EXPLOIT - ADDITIONAL FUN
+
 Investigating `thank_you.json`  
 
 ![image](https://github.com/user-attachments/assets/06f7ca77-9438-4cf9-b22d-8aa99d010f21)
-
-
-# POST EXPLOIT
 
 The JSON is URL-encoded. Lets open CyberChef, an online decoder, to decode.  
 
