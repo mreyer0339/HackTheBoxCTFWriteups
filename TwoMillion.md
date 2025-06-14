@@ -215,9 +215,9 @@ I used the `ls -la` command to show all visible and hidden files.
 
 ![image](https://github.com/user-attachments/assets/8bc4b962-f168-4a70-9816-7d316064ccb6)
 
-There was nothing of interest in any of the files other than the hidden file ".env" (`.<filename>` indicates hidden file).  
+I found the hidden file ".env" (`.<filename>` indicates hidden file).  
 
-#####################################################################################################user.txt shows us our root flag==> 
+I also found the file `user.txt` but don't have permission to access. I'll need to get admin.
 
 ![image](https://github.com/user-attachments/assets/ad8d01d0-e0af-455d-8b67-719baecfd9d4)
 
@@ -231,7 +231,12 @@ With this password, I will SSH with the "admin" credentials. (Let's hope the use
 
 ![image](https://github.com/user-attachments/assets/a8e310a1-a3fa-4032-897a-6148ad98815f)
 
-There is nothing of interest when performing ls from the home directory (~).  
+I found our `user flag` in the `/home/admin` directory. Lets take a look! 
+
+(FYI: THIS IS A PORTION OF THE FLAG. TO FIND THE WHOLE FLAG, DO THIS YOURSELF)
+
+![image](https://github.com/user-attachments/assets/ea1fdf00-911d-45c5-9502-888af4943ace)
+
 
 I investigate further, finding a file "admin" in `/var/mail`.  
 
@@ -278,6 +283,14 @@ Confirming root privileges...
 Checking for files in root directory...  
 
 ![image](https://github.com/user-attachments/assets/ea1a2b2e-e44b-4165-b88b-f384c6d6c259)
+
+`root.txt` holds our root flag.
+
+
+(FYI: THIS IS A PORTION OF THE FLAG. TO FIND THE WHOLE FLAG, DO THIS YOURSELF)
+
+![image](https://github.com/user-attachments/assets/c4858055-4cdf-488c-9e9a-bdd188f3b8f4)
+
 
 #####################################################################################################root.txt shows us our root flag==> 
 
