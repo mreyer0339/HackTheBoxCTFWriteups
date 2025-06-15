@@ -3,7 +3,7 @@ Hello,
   My name is mreyer0339 and this is my first CTF writeup using retired machines on (https://app.hackthebox.com/). I am using OpenVPN to connect to HTB virtual machines on my Kali Linux machine.   
 
   I am currently certified with the following:  
-  - CompTIA A+  
+  - CompTIA A+   
   - CompTIA Network+  
   - CompTIA Security+  
   - CompTIA PenTest+  
