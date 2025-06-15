@@ -292,7 +292,7 @@ Checking for files in root directory...
 ![image](https://github.com/user-attachments/assets/c4858055-4cdf-488c-9e9a-bdd188f3b8f4)
 
 
-#####################################################################################################root.txt shows us our root flag==> 
+
 
 # POST EXPLOIT - ADDITIONAL FUN
 
