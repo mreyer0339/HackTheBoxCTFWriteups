@@ -1,0 +1,10 @@
+# WRITEUP
+
+HTB Challenge: Flag Command
+
+# STEPS
+
+We begin by running the instance and are given a host IP ( 83.136.253.201:30918 )
+
+Let's ping it first.
+
