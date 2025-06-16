@@ -26,3 +26,7 @@ Let's try to run the binary again, using the printed PW...
 We were returned an un-obfuscated string, the flag for this challenge.
 
 FYI: This string has been altered to not reveal any full flags. If you want the flag, try it out yourself.
+
+# END
+
+https://www.hackthebox.com/achievement/challenge/2192113/806
